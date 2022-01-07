@@ -4,7 +4,6 @@
   "description": "hlj-api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js"
   },
   "repository": {
@@ -23,7 +22,9 @@
   },
   "homepage": "https://github.com/gmpa-mrt/hlj-serve#readme",
   "dependencies": {
+    "body-parser": "^1.19.1",
     "express": "^4.17.2",
+    "mongoose": "^6.1.5",
     "nodemon": "^2.0.15"
   }
 }
