@@ -5,6 +5,13 @@ exports.user_get_all = async (req, res) => {
     return res.status(200).send(users)
 }
 
+exports.user_show = async (req, res) => {
+    const user = await User.findOne({
+        id: req.params.id
+    })
+    return res.status(200).send(user)
+}
+
 exports.user_create = async (req, res) => {
     try {
         await User.create(req.body)
