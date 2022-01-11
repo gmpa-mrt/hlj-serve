@@ -21,5 +21,5 @@ exports.user_update = (req, res) => {
 
     console.log(req.params)
 
-    return res.status(200).json({})
+    return res.status(200).json({message:'Ok'})
 }
