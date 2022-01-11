@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const { normalize }  = require("../lib/normalizeJson");
+import mongoose from "mongoose";
+import {normalize} from "../lib/normalizeJson.js";
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -13,4 +13,5 @@ const userSchema = new mongoose.Schema({
 
 normalize(userSchema)
 
-module.exports = mongoose.model('User', userSchema)
+export default mongoose.model('User', userSchema)
+
