@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
 
-// @TODO id for update controller 
-
 const userSchema = new mongoose.Schema({
     name: String,
     email: {
