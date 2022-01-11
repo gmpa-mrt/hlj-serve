@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-
-// @TODO id for update controller 
+const { normalize }  = require("../lib/normalizeJson");
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -11,5 +10,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
     },
 })
+
+normalize(userSchema)
 
 module.exports = mongoose.model('User', userSchema)
