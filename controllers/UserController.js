@@ -30,7 +30,7 @@ exports.user_update = async (req, res) => {
     try {
         isEmptyObject(req.body)
     } catch (e) {
-       return  res.status(e.status).send(e.message)
+        return res.status(e.status).send(e.message)
     }
     try {
         await User.updateOne({ _id: req.params.id }, {
@@ -42,6 +42,16 @@ exports.user_update = async (req, res) => {
             name,
             email
         })
+    } catch (e) {
+        e = new ResourceNotFoundError
+        return res.status(e.status).send(e.message)
+    }
+}
+
+exports.user_destroy = async (req, res) => {
+    try {
+        await User.remove({ _id: req.params.id })
+        return res.status(200).send({message:"The resource has been removed"})
     } catch (e) {
         e = new ResourceNotFoundError
         return res.status(e.status).send(e.message)
