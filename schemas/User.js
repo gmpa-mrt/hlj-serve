@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const  normalize  = require("../lib/normalizeJson");
+const { normalize }  = require("../lib/normalizeJson");
 
 const userSchema = new mongoose.Schema({
     name: String,

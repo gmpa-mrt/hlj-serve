@@ -7,5 +7,4 @@ router.post('/register', UserController.user_create)
 router.patch('/users/update/:id', UserController.user_update)
 router.delete('/users/delete/:id', UserController.user_destroy)
 
-
 module.exports = router;

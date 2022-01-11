@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
     res.status(200).json({ message: 'Hello World !' })
 })
 
+//@Todo default 404
 // routes
 app.use('/', require('./routes/user.route'))
 
