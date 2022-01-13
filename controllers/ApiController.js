@@ -13,7 +13,7 @@ export default class ApiController {
         }
     }
 
-    static searchKanji = async (req, res) => {
+    static getKanji = async (req, res) => {
         try {
             const response = await fetchJson(`/kanji/${req.params.kanji}`, {
                 headers:{'x-rapidapi-key': process.env.API_KEY}
@@ -24,4 +24,14 @@ export default class ApiController {
         }
     }
 
+    static getAllKanji = async (req, res) => {
+        const response = await fetchJson('/kanji/all', {
+            headers:{'x-rapidapi-key': process.env.API_KEY}
+        })
+        try {
+            return res.status(200).send(response)
+        } catch (e) {
+            return res.status(400).send(e.message)
+        }
+    }
 }

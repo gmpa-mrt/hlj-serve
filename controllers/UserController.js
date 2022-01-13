@@ -1,4 +1,4 @@
-import User from "../schemas/User.js";
+import User from "../models/User.js";
 import {isEmptyObject} from "../lib/normalizeJson.js";
 import {ResourceNotFoundError, RequestError} from "../lib/errors.js";
 import errorHandler from "../lib/errorHandler.js";
@@ -20,10 +20,7 @@ export default class UserController {
         try {
             await User.create(req.body)
         } catch (e) {
-            if (errorHandler(e.name)) {
-                e = new RequestError
-            }
-            return res.status(e.status).send(e.message)
+            return res.status(400).send(e.message)
         }
         return res.status(201).json({
             message: "User created"

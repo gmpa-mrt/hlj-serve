@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import User from "../schemas/User.js"
+import User from "../models/User.js"
 
 const initializationDb = async () => {
     await mongoose.connect('mongodb://127.0.0.1:27017/hlj')
