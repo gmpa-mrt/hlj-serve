@@ -1,24 +1,31 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt"
 import {isEmptyObject} from "../lib/normalizeJson.js";
 import {ResourceNotFoundError, RequestError} from "../lib/errors.js";
 import errorHandler from "../lib/errorHandler.js";
 
 export default class UserController {
-   static user_get_all = async (req, res) => {
+    static user_get_all = async (req, res) => {
         const users = await User.find({})
         return res.status(200).send(users)
     }
 
-   static user_show = async (req, res) => {
+    static user_show = async (req, res) => {
         const user = await User.findOne({
             id: req.params.id
         })
         return res.status(200).send(user)
     }
 
-   static user_create = async (req, res) => {
+    static user_create = async (req, res) => {
         try {
-            await User.create(req.body)
+            const { name, email, password } = req.body
+            const encryptedPassword = await bcrypt.hash(password, 10);
+            await User.create({
+                name,
+                email,
+                password: encryptedPassword
+            })
         } catch (e) {
             return res.status(400).send(e.message)
         }
@@ -27,7 +34,7 @@ export default class UserController {
         })
     }
 
-   static user_update = async (req, res) => {
+    static user_update = async (req, res) => {
         const { name, email } = req.body
         try {
             isEmptyObject(req.body)
@@ -50,7 +57,7 @@ export default class UserController {
         }
     }
 
-   static user_destroy = async (req, res) => {
+    static user_destroy = async (req, res) => {
         try {
             await User.remove({ _id: req.params.id })
             return res.status(200).send({ message: "The resource has been removed" })

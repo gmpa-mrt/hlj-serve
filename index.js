@@ -5,6 +5,7 @@ import cors from 'cors'
 import cookieSession from 'cookie-session'
 import initializationDb from './config/db.js'
 import user_route from './routes/user.route.js'
+import security_route from './routes/security.route.js'
 import api_route from './routes/api.route.js'
 
 dotenv.config()
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 //@Todo default 404
 // routes
 app.use('/', user_route)
+app.use('/', security_route)
 app.use('/api', api_route)
 
 const PORT = process.env.PORT
