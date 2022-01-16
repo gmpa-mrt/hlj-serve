@@ -4,7 +4,6 @@ import {RequestError, ResourceNotFoundError} from "../lib/errors.js";
 import generateJWT from "../lib/generateJWT.js";
 import {isEmptyObject} from "../lib/normalizeJson.js";
 import responseWithOutPassword from "../lib/responseWithOutPassword.js";
-import user from "../models/User.js";
 import User from "../models/User.js";
 
 export default class UserController {
