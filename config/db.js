@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const User = require('../schemas/User')
+import mongoose from "mongoose";
+import User from "../models/User.js"
 
 const initializationDb = async () => {
     await mongoose.connect('mongodb://127.0.0.1:27017/hlj')
@@ -14,4 +14,4 @@ const initializationDb = async () => {
     });
 }
 
-module.exports = initializationDb
+export default initializationDb
