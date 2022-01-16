@@ -16,9 +16,10 @@ const userSchema = new mongoose.Schema({
         validate: [checkValidEmail, "Please fill a valid email address"]
     },
     password: {
-        type:String
+        type: String,
+        required: true
     },
-    token:String
+    token: String
 })
 
 normalize(userSchema)

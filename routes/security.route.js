@@ -1,8 +1,9 @@
 import express from "express";
+import SecurityController from "../controllers/SecurityController.js";
 
 const router = express.Router()
 
-router.get('/login')
+router.post('/login', SecurityController.login)
 router.get('/logout')
 
 

@@ -1,9 +1,10 @@
 import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
 import errorHandler from "../lib/errorHandler.js";
 import {RequestError, ResourceNotFoundError} from "../lib/errors.js";
 import generateJWT from "../lib/generateJWT.js";
 import {isEmptyObject} from "../lib/normalizeJson.js";
+import responseWithOutPassword from "../lib/responseWithOutPassword.js";
+import user from "../models/User.js";
 import User from "../models/User.js";
 
 export default class UserController {
@@ -32,12 +33,7 @@ export default class UserController {
 
             user.token = generateJWT(user)
 
-            return res.status(201).json({
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                token: user.token
-            })
+            return res.status(201).json(responseWithOutPassword(user))
         } catch (e) {
             return res.status(400).json({
                 message: e.message
@@ -59,11 +55,7 @@ export default class UserController {
                 name,
                 email
             })
-            return res.status(200).json({
-                id: req.params.id,
-                name,
-                email
-            })
+            return res.status(200).json(responseWithOutPassword(user))
         } catch (e) {
             errorHandler(e.name) ? e = new RequestError : e = new ResourceNotFoundError
             return res.status(e.status).json({
