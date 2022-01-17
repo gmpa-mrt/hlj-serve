@@ -21,12 +21,10 @@ export default class UserController {
         return res.status(200).json(user)
     }
 
-    static user_who_am_i(req, res) {
-        const user = getUserFromJWT(req)
-        return res.status(200).json({
-            id: user.user_id,
-            email: user.email
-        })
+    static user_who_am_i = async (req, res) => {
+        const id = getUserFromJWT(req)._id
+        const user = await User.findOne({ id })
+        return res.status(200).json(responseWithOutPassword(user))
     }
 
     static user_create = async (req, res) => {
@@ -60,10 +58,10 @@ export default class UserController {
             })
         }
         try {
-            await User.updateOne({ _id: req.params.id }, {
+           const user = await User.findOneAndUpdate({ _id: req.params.id }, {
                 name,
                 email
-            })
+            }, { returnDocument: 'after' })
             return res.status(200).json(responseWithOutPassword(user))
         } catch (e) {
             errorHandler(e.name) ? e = new RequestError : e = new ResourceNotFoundError
@@ -91,6 +89,32 @@ export default class UserController {
                 $addToSet: { kanji: req.params.kanji }
             }, { returnDocument: 'after' })
             return res.status(201).json(user)
+        } catch (e) {
+            res.status(400).json({
+                message: e.message
+            })
+        }
+    }
+
+    static user_remove_one_kanji = async (req, res) => {
+        try {
+            const user = await User.findOneAndUpdate({ id: getUserFromJWT(req)._id }, {
+                $pull: { kanji: req.params.kanji }
+            }, { returnDocument: 'after' })
+            return res.status(200).json(user)
+        } catch (e) {
+            res.status(400).json({
+                message: e.message
+            })
+        }
+    }
+
+    static user_remove_all_kanji = async (req, res) => {
+        try {
+            const user = await User.findOneAndUpdate({ id: getUserFromJWT(req)._id }, {
+                $set: { kanji: [] }
+            }, { returnDocument: 'after' })
+            return res.status(200).json(user)
         } catch (e) {
             res.status(400).json({
                 message: e.message
