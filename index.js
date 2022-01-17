@@ -13,7 +13,9 @@ dotenv.config()
 const app = express()
 
 app.use(bodyParser.json());
-
+//@Todo up security
+app.use(cors())
+//@Todo see to make role user in it
 app.use(
     cookieSession({
         name: "hlj-session",
