@@ -1,11 +1,9 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt"
-import getUserFromJWT from "../lib/getUserFromJWT.js";
-import errorHandler from "../lib/errorHandler.js";
+import {getUserFromJWT, generateJWT} from "../lib/JWT.js";
 import {RequestError, ResourceNotFoundError} from "../lib/errors.js";
-import generateJWT from "../lib/generateJWT.js";
-import {isEmptyObject} from "../lib/normalizeJson.js";
-import responseWithOutPassword from "../lib/responseWithOutPassword.js";
+import {isEmptyObject, responseWithOutPassword} from "../lib/normalizeJson.js";
+import errorHandler from "../lib/errorHandler.js";
 
 
 export default class UserController {

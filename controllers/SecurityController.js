@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
-import generateJWT from "../lib/generateJWT.js";
-import responseWithOutPassword from "../lib/responseWithOutPassword.js";
+import {generateJWT} from "../lib/JWT.js";
+import {responseWithOutPassword} from "../lib/normalizeJson.js";
 import User from "../models/User.js"
 
 export default class SecurityController {
