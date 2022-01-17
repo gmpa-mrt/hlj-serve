@@ -1,10 +1,12 @@
+import User from "../models/User.js";
 import bcrypt from "bcrypt"
+import getUserFromJWT from "../lib/getUserFromJWT.js";
 import errorHandler from "../lib/errorHandler.js";
 import {RequestError, ResourceNotFoundError} from "../lib/errors.js";
 import generateJWT from "../lib/generateJWT.js";
 import {isEmptyObject} from "../lib/normalizeJson.js";
 import responseWithOutPassword from "../lib/responseWithOutPassword.js";
-import User from "../models/User.js";
+
 
 export default class UserController {
     static user_get_all = async (req, res) => {
@@ -17,6 +19,12 @@ export default class UserController {
             id: req.params.id
         })
         return res.status(200).json(user)
+    }
+
+    static user_who_am_i = async (req, res) => {
+        const id = getUserFromJWT(req)._id
+        const user = await User.findOne({ id })
+        return res.status(200).json(responseWithOutPassword(user))
     }
 
     static user_create = async (req, res) => {
@@ -50,10 +58,10 @@ export default class UserController {
             })
         }
         try {
-            await User.updateOne({ _id: req.params.id }, {
+           const user = await User.findOneAndUpdate({ _id: req.params.id }, {
                 name,
                 email
-            })
+            }, { returnDocument: 'after' })
             return res.status(200).json(responseWithOutPassword(user))
         } catch (e) {
             errorHandler(e.name) ? e = new RequestError : e = new ResourceNotFoundError
@@ -70,6 +78,45 @@ export default class UserController {
         } catch (e) {
             e = new ResourceNotFoundError
             return res.status(e.status).json({
+                message: e.message
+            })
+        }
+    }
+
+    static user_add_kanji = async (req, res) => {
+        try {
+            const user = await User.findOneAndUpdate({ id: getUserFromJWT(req)._id }, {
+                $addToSet: { kanji: req.params.kanji }
+            }, { returnDocument: 'after' })
+            return res.status(201).json(user)
+        } catch (e) {
+            res.status(400).json({
+                message: e.message
+            })
+        }
+    }
+
+    static user_remove_one_kanji = async (req, res) => {
+        try {
+            const user = await User.findOneAndUpdate({ id: getUserFromJWT(req)._id }, {
+                $pull: { kanji: req.params.kanji }
+            }, { returnDocument: 'after' })
+            return res.status(200).json(user)
+        } catch (e) {
+            res.status(400).json({
+                message: e.message
+            })
+        }
+    }
+
+    static user_remove_all_kanji = async (req, res) => {
+        try {
+            const user = await User.findOneAndUpdate({ id: getUserFromJWT(req)._id }, {
+                $set: { kanji: [] }
+            }, { returnDocument: 'after' })
+            return res.status(200).json(user)
+        } catch (e) {
+            res.status(400).json({
                 message: e.message
             })
         }
