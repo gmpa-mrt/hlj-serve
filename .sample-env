@@ -6,6 +6,3 @@ API_KEY=
 API_URL=
 TOKEN_KEY=
 TOKEN_EXPIRATION=
-
-
-mongodb+srv://gmpa-mrt:%24JapanPsgmagique1995%40@cluster0.3bn9n.mongodb.net/hlj?retryWrites=true&w=majority
