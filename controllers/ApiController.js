@@ -1,4 +1,5 @@
 import {fetchJson} from "../lib/fetchJson.js";
+import {pagination} from "../lib/pagination.js";
 
 export default class ApiController {
     /* Default request to RapidApi */
@@ -30,9 +31,12 @@ export default class ApiController {
     }
 
     static getAllKanji = async (req, res) => {
-        const response = await fetchJson('/kanji/all', {
+        const data = await fetchJson('/kanji/all', {
             headers: { 'x-rapidapi-key': process.env.API_KEY }
         })
+
+        const response = pagination(req, data)
+
         try {
             return res.status(200).json(response)
         } catch (e) {
@@ -41,8 +45,8 @@ export default class ApiController {
             })
         }
     }
-    /* Default request to RapidApi */
 
+    /* Default request to RapidApi */
     static searchEnglishToKanjiDetails = async (req, res) => {
         try {
             const data = await fetchJson(`/search/${req.params.word}`, {

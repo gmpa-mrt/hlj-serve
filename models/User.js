@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
     kanji: [],
     token: String
 })
-
 normalize(userSchema)
 
 export default mongoose.model('User', userSchema)
