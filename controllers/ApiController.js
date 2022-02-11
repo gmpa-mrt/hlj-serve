@@ -35,10 +35,14 @@ export default class ApiController {
             headers: { 'x-rapidapi-key': process.env.API_KEY }
         })
 
-        const response = pagination(req, data)
+
+        const page = parseInt(req.query.page)
+        const limit = parseInt(req.query.limit)
+
+        const {result, currentPage, pages} = pagination(page, limit, data)
 
         try {
-            return res.status(200).json(response)
+            return res.status(200).json({result, currentPage, pages})
         } catch (e) {
             return res.status(400).json({
                 message: e.message
